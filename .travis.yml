@@ -17,5 +17,5 @@ jobs:
         script:
          - cargo login $CRATES_TOKEN
          - cargo publish
-        on:
-          tags: true
+      on:
+        tags: true
