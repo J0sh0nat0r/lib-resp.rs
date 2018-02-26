@@ -1,0 +1,7 @@
+[package]
+name = "lib_resp"
+version = "0.1.0"
+authors = ["Josh <josh@exasrc.com>"]
+
+[dependencies]
+nom = "4.0.0-beta1"
