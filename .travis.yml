@@ -14,8 +14,6 @@ jobs:
       script: echo "Publishing to crates.io ..."
       deploy:
         provider: script
-        script:
-         - cargo login $CRATES_TOKEN
-         - cargo publish
-      on:
-        tags: true
+        script: cargo login $CRATES_TOKEN ; cargo publish
+        on:
+          tags: true
