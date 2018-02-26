@@ -56,5 +56,17 @@ mod bench_decode {
 
     #[bench]
     fn array(b: &mut Bencher) {
+        let bytes = &Value::Array(Some(vec![
+            Value::int(-3),
+            Value::str("OK"),
+            Value::err("ERR"),
+            Value::b_str(Some("foobar"))
+        ])).encode_bytes();
+
+        b.iter(|| {
+            let mut decoder = Decoder::new(BufReader::new(bytes.as_slice()));
+
+            decoder.decode()
+        });
     }
 }
