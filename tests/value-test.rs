@@ -28,7 +28,7 @@ mod test_encode {
 
     #[test]
     fn b_str() {
-        let value = Value::b_str(None);
+        let value = Value::BStr(None);
 
         assert_eq!(value.encode(), "$-1\r\n");
 
@@ -55,10 +55,13 @@ mod test_encode {
             Value::int(-3),
             Value::str("OK"),
             Value::err("ERR"),
-            Value::b_str(Some("foobar"))
+            Value::b_str(Some("foobar")),
         ]));
 
-        assert_eq!(value.encode(), "*4\r\n:-3\r\n+OK\r\n-ERR\r\n$6\r\nfoobar\r\n")
+        assert_eq!(
+            value.encode(),
+            "*4\r\n:-3\r\n+OK\r\n-ERR\r\n$6\r\nfoobar\r\n"
+        )
     }
 }
 
@@ -88,7 +91,7 @@ mod test_is_null {
 
     #[test]
     fn b_str() {
-        let value = Value::b_str(None);
+        let value = Value::BStr(None);
 
         assert!(value.is_null());
 
@@ -115,7 +118,7 @@ mod test_is_null {
             Value::int(-3),
             Value::str("OK"),
             Value::err("ERR"),
-            Value::b_str(Some("foobar"))
+            Value::b_str(Some("foobar")),
         ]));
 
         assert!(!value.is_null());
@@ -156,7 +159,7 @@ mod test_is_empty {
 
     #[test]
     fn b_str() {
-        let value = Value::b_str(None);
+        let value = Value::BStr(None);
 
         assert!(value.is_empty());
 
@@ -183,7 +186,7 @@ mod test_is_empty {
             Value::int(-3),
             Value::str("OK"),
             Value::err("ERR"),
-            Value::b_str(Some("foobar"))
+            Value::b_str(Some("foobar")),
         ]));
 
         assert!(!value.is_empty());
@@ -224,7 +227,7 @@ mod test_clone {
 
     #[test]
     fn b_str() {
-        let value = Value::b_str(None);
+        let value = Value::BStr(None);
 
         assert_eq!(value.clone(), value);
 
@@ -251,7 +254,7 @@ mod test_clone {
             Value::int(-3),
             Value::str("OK"),
             Value::err("ERR"),
-            Value::b_str(Some("foobar"))
+            Value::b_str(Some("foobar")),
         ]));
 
         assert_eq!(value.clone(), value);
@@ -284,7 +287,7 @@ mod test_dbg_fmt {
 
     #[test]
     fn b_str() {
-        let value = Value::b_str(None);
+        let value = Value::BStr(None);
 
         assert_eq!(format!("{:?}", value), "BStr(None)");
 
@@ -311,7 +314,7 @@ mod test_dbg_fmt {
             Value::int(-3),
             Value::str("OK"),
             Value::err("ERR"),
-            Value::b_str(Some("foobar"))
+            Value::b_str(Some("foobar")),
         ]));
 
         assert_eq!(

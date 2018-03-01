@@ -1,7 +1,7 @@
-extern crate nom;
 extern crate lib_resp;
+extern crate nom;
 
-use lib_resp::{Value, Parser};
+use lib_resp::{Parser, Value};
 
 /// Tests the `parse` method
 mod test_parse {
@@ -25,15 +25,24 @@ mod test_parse {
     #[test]
     fn err() {
         assert_eq!(Parser::parse(b"-ERR\r\n").unwrap().1, Value::err("ERR"));
-        assert_eq!(Parser::parse(b"-err FOO\r\n").unwrap().1, Value::err("err FOO"));
+        assert_eq!(
+            Parser::parse(b"-err FOO\r\n").unwrap().1,
+            Value::err("err FOO")
+        );
     }
 
     /// Tests parsing some bulk strings
     #[test]
     fn b_str() {
-        assert_eq!(Parser::parse(b"$-1\r\n").unwrap().1, Value::b_str(None));
-        assert_eq!(Parser::parse(b"$0\r\n\r\n").unwrap().1, Value::b_str(Some("")));
-        assert_eq!(Parser::parse(b"$3\r\nfoo\r\n").unwrap().1, Value::b_str(Some("foo")));
+        assert_eq!(Parser::parse(b"$-1\r\n").unwrap().1, Value::b_str(None::<&str>));
+        assert_eq!(
+            Parser::parse(b"$0\r\n\r\n").unwrap().1,
+            Value::b_str(Some(""))
+        );
+        assert_eq!(
+            Parser::parse(b"$3\r\nfoo\r\n").unwrap().1,
+            Value::b_str(Some("foo"))
+        );
     }
 
     /// Tests parsing an array
@@ -41,16 +50,20 @@ mod test_parse {
     fn array() {
         assert_eq!(Parser::parse(b"*-1\r\n").unwrap().1, Value::Array(None));
 
-        assert_eq!(Parser::parse(b"*0\r\n").unwrap().1, Value::Array(Some(Vec::new())));
+        assert_eq!(
+            Parser::parse(b"*0\r\n").unwrap().1,
+            Value::Array(Some(Vec::new()))
+        );
 
         assert_eq!(
-            Parser::parse(b"*4\r\n:10\r\n+OK\r\n-ERR\r\n$-1\r\n").unwrap().1,
-
+            Parser::parse(b"*4\r\n:10\r\n+OK\r\n-ERR\r\n$-1\r\n")
+                .unwrap()
+                .1,
             Value::Array(Some(vec![
                 Value::int(10),
                 Value::str("OK"),
                 Value::err("ERR"),
-                Value::b_str(None)
+                Value::b_str(None::<&str>),
             ]))
         );
     }
@@ -111,7 +124,7 @@ mod test_parse {
         }
     }
 
-    /// These tests ensure incomplete data returns IResult::Incomplete
+    /// These tests ensure incomplete data returns `Err::Incomplete`
     mod incomplete {
         use super::*;
 
@@ -161,11 +174,31 @@ mod test_parse {
             assert!(Parser::parse(b"*2\r\n+OK").unwrap_err().is_incomplete());
             assert!(Parser::parse(b"*2\r\n+OK\r").unwrap_err().is_incomplete());
             assert!(Parser::parse(b"*2\r\n+OK\r\n").unwrap_err().is_incomplete());
-            assert!(Parser::parse(b"*2\r\n+OK\r\n-").unwrap_err().is_incomplete());
-            assert!(Parser::parse(b"*2\r\n+OK\r\n-E").unwrap_err().is_incomplete());
-            assert!(Parser::parse(b"*2\r\n+OK\r\n-ER").unwrap_err().is_incomplete());
-            assert!(Parser::parse(b"*2\r\n+OK\r\n-ERR").unwrap_err().is_incomplete());
-            assert!(Parser::parse(b"*2\r\n+OK\r\n-ERR\r").unwrap_err().is_incomplete());
+            assert!(
+                Parser::parse(b"*2\r\n+OK\r\n-")
+                    .unwrap_err()
+                    .is_incomplete()
+            );
+            assert!(
+                Parser::parse(b"*2\r\n+OK\r\n-E")
+                    .unwrap_err()
+                    .is_incomplete()
+            );
+            assert!(
+                Parser::parse(b"*2\r\n+OK\r\n-ER")
+                    .unwrap_err()
+                    .is_incomplete()
+            );
+            assert!(
+                Parser::parse(b"*2\r\n+OK\r\n-ERR")
+                    .unwrap_err()
+                    .is_incomplete()
+            );
+            assert!(
+                Parser::parse(b"*2\r\n+OK\r\n-ERR\r")
+                    .unwrap_err()
+                    .is_incomplete()
+            );
         }
     }
 }

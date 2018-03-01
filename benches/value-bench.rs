@@ -1,6 +1,6 @@
 #![feature(test)]
-extern crate test;
 extern crate lib_resp;
+extern crate test;
 
 use test::Bencher;
 use lib_resp::Value;
@@ -64,7 +64,7 @@ mod bench_encode {
             Value::str("OK"),
             Value::err("ERR"),
             Value::b_str(Some("foobar")),
-            Value::Array(Some(Vec::new()))
+            Value::Array(Some(Vec::new())),
         ]));
 
         b.iter(|| value.encode())

@@ -1,5 +1,5 @@
 [package]
-name = "lib_resp"
+name = "lib-resp"
 version = "0.1.0"
 authors = ["Josh <josh@exasrc.com>"]
 

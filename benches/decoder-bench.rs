@@ -1,9 +1,8 @@
 #![feature(test)]
-extern crate test;
 extern crate lib_resp;
+extern crate test;
 
 use test::Bencher;
-use std::io::Cursor;
 use std::io::BufReader;
 use lib_resp::{Decoder, Value};
 
@@ -60,7 +59,7 @@ mod bench_decode {
             Value::int(-3),
             Value::str("OK"),
             Value::err("ERR"),
-            Value::b_str(Some("foobar"))
+            Value::b_str(Some("foobar")),
         ])).encode_bytes();
 
         b.iter(|| {

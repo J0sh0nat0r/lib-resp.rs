@@ -6,7 +6,6 @@ use lib_resp::{Decoder, Value};
 mod test_decode {
     use super::*;
 
-
     #[test]
     fn int() {
         let bytes = Value::int(-3).encode_bytes();
@@ -15,7 +14,6 @@ mod test_decode {
 
         assert_eq!(decoder.decode().ok(), Some(Some(Value::int(-3))));
     }
-
 
     #[test]
     fn multi_int() {
@@ -95,11 +93,11 @@ mod test_decode {
     #[test]
     fn b_str() {
         // Null BStr
-        let bytes = Value::b_str(None).encode_bytes();
+        let bytes = Value::b_str(None::<&str>).encode_bytes();
 
         let mut decoder = Decoder::new(BufReader::new(bytes.as_slice()));
 
-        assert_eq!(decoder.decode().ok(), Some(Some(Value::b_str(None))));
+        assert_eq!(decoder.decode().ok(), Some(Some(Value::b_str(None::<&str>))));
 
         // Empty BStr
         let bytes = Value::b_str(Some("")).encode_bytes();
@@ -113,7 +111,10 @@ mod test_decode {
 
         let mut decoder = Decoder::new(BufReader::new(bytes.as_slice()));
 
-        assert_eq!(decoder.decode().ok(), Some(Some(Value::b_str(Some("foobar")))));
+        assert_eq!(
+            decoder.decode().ok(),
+            Some(Some(Value::b_str(Some("foobar"))))
+        );
     }
 
     #[test]
@@ -121,7 +122,7 @@ mod test_decode {
         let bytes = {
             let mut vec = Vec::new();
 
-            vec.append(&mut Value::b_str(None).encode_bytes());
+            vec.append(&mut Value::b_str(None::<&str>).encode_bytes());
             vec.append(&mut Value::b_str(Some("")).encode_bytes());
             vec.append(&mut Value::b_str(Some("foobar")).encode_bytes());
 
@@ -130,9 +131,12 @@ mod test_decode {
 
         let mut decoder = Decoder::new(BufReader::new(bytes.as_slice()));
 
-        assert_eq!(decoder.decode().ok(), Some(Some(Value::b_str(None))));
+        assert_eq!(decoder.decode().ok(), Some(Some(Value::b_str(None::<&str>))));
         assert_eq!(decoder.decode().ok(), Some(Some(Value::b_str(Some("")))));
-        assert_eq!(decoder.decode().ok(), Some(Some(Value::b_str(Some("foobar")))));
+        assert_eq!(
+            decoder.decode().ok(),
+            Some(Some(Value::b_str(Some("foobar"))))
+        );
     }
 
     #[test]
@@ -144,7 +148,7 @@ mod test_decode {
                 Value::int(-3),
                 Value::str("OK"),
                 Value::err("ERR"),
-                Value::b_str(Some("foobar"))
+                Value::b_str(Some("foobar")),
             ])).encode_bytes());
 
             vec
@@ -152,11 +156,14 @@ mod test_decode {
 
         let mut decoder = Decoder::new(BufReader::new(bytes.as_slice()));
 
-        assert_eq!(decoder.decode().ok(), Some(Some(Value::Array(Some(vec![
-            Value::int(-3),
-            Value::str("OK"),
-            Value::err("ERR"),
-            Value::b_str(Some("foobar"))
-        ])))));
+        assert_eq!(
+            decoder.decode().ok(),
+            Some(Some(Value::Array(Some(vec![
+                Value::int(-3),
+                Value::str("OK"),
+                Value::err("ERR"),
+                Value::b_str(Some("foobar")),
+            ]))))
+        );
     }
 }

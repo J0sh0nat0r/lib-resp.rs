@@ -2,9 +2,8 @@
 extern crate nom;
 
 mod value;
+mod parser;
 mod decoder;
-
-pub mod parser;
 
 pub use value::Value;
 pub use parser::Parser;
