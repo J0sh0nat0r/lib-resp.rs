@@ -176,7 +176,7 @@ impl Value {
     /// ```
     /// use lib_resp::Value;
     ///
-    /// let name = Value::b_str("Josh");
+    /// let name = Value::b_str(Some("Josh"));
     ///
     /// assert!(!name.is_null());
     /// ```
@@ -207,7 +207,7 @@ impl Value {
     ///
     /// let error = Value::err("ERR");
     ///
-    /// assert!(!value.is_empty())
+    /// assert!(!error.is_empty())
     /// ```
     ///
     /// Null values count as empty too:
