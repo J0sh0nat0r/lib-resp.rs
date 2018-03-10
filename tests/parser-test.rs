@@ -34,7 +34,7 @@ mod test_parse {
     /// Tests parsing some bulk strings
     #[test]
     fn b_str() {
-        assert_eq!(Parser::parse(b"$-1\r\n").unwrap().1, Value::b_str(None::<&str>));
+        assert_eq!(Parser::parse(b"$-1\r\n").unwrap().1, Value::BStr(None));
         assert_eq!(
             Parser::parse(b"$0\r\n\r\n").unwrap().1,
             Value::b_str(Some(""))
@@ -63,7 +63,7 @@ mod test_parse {
                 Value::int(10),
                 Value::str("OK"),
                 Value::err("ERR"),
-                Value::b_str(None::<&str>),
+                Value::BStr(None),
             ]))
         );
     }

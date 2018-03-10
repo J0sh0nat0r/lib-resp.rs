@@ -93,11 +93,11 @@ mod test_decode {
     #[test]
     fn b_str() {
         // Null BStr
-        let bytes = Value::b_str(None::<&str>).encode_bytes();
+        let bytes = Value::BStr(None).encode_bytes();
 
         let mut decoder = Decoder::new(BufReader::new(bytes.as_slice()));
 
-        assert_eq!(decoder.decode().ok(), Some(Some(Value::b_str(None::<&str>))));
+        assert_eq!(decoder.decode().ok(), Some(Some(Value::BStr(None))));
 
         // Empty BStr
         let bytes = Value::b_str(Some("")).encode_bytes();
@@ -122,7 +122,7 @@ mod test_decode {
         let bytes = {
             let mut vec = Vec::new();
 
-            vec.append(&mut Value::b_str(None::<&str>).encode_bytes());
+            vec.append(&mut Value::BStr(None).encode_bytes());
             vec.append(&mut Value::b_str(Some("")).encode_bytes());
             vec.append(&mut Value::b_str(Some("foobar")).encode_bytes());
 
@@ -131,7 +131,7 @@ mod test_decode {
 
         let mut decoder = Decoder::new(BufReader::new(bytes.as_slice()));
 
-        assert_eq!(decoder.decode().ok(), Some(Some(Value::b_str(None::<&str>))));
+        assert_eq!(decoder.decode().ok(), Some(Some(Value::BStr(None))));
         assert_eq!(decoder.decode().ok(), Some(Some(Value::b_str(Some("")))));
         assert_eq!(
             decoder.decode().ok(),

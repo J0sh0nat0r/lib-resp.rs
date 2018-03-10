@@ -51,7 +51,7 @@ mod bench_encode {
     /// Benchmarks encoding a null bulk string
     #[bench]
     fn null_b_str(b: &mut Bencher) {
-        let value = Value::b_str(None);
+        let value = Value::BStr(None);
 
         b.iter(|| value.encode())
     }
