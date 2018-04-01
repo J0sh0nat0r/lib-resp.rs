@@ -1,7 +1,10 @@
 [package]
 name = "lib-resp"
+description = "A high-performance, nom-based RESP implementation for Rust"
 version = "0.1.0"
-authors = ["Josh <josh@exasrc.com>"]
+license = "MIT"
+authors = ["Josh <josh@joshp.xyz>"]
+repository = "https://github.com/J0sh0nat0r/lib-resp.rs"
 
 [dependencies]
 nom = "4.0.0-beta2"
