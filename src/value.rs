@@ -31,8 +31,7 @@ impl Value {
     /// # Examples
     ///
     /// ```
-    /// use lib_resp::Value;
-    ///
+    /// # use lib_resp::Value;
     /// let error = Value::err("ERR");
     ///
     /// assert_eq!(error.encode(), "-ERR\r\n");
@@ -148,8 +147,7 @@ impl Value {
     /// # Examples
     ///
     /// ```
-    /// use lib_resp::Value;
-    ///
+    /// # use lib_resp::Value;
     /// let error = Value::err("ERR");
     ///
     /// assert_eq!(&error.encode_bytes(), b"-ERR\r\n");
@@ -166,16 +164,14 @@ impl Value {
     /// # Examples
     ///
     /// ```
-    /// use lib_resp::Value;
-    ///
+    /// # use lib_resp::Value;
     /// let name = Value::BStr(None);
     ///
     /// assert!(name.is_null());
     /// ```
     ///
     /// ```
-    /// use lib_resp::Value;
-    ///
+    /// # use lib_resp::Value;
     /// let name = Value::b_str(Some("Josh"));
     ///
     /// assert!(!name.is_null());
@@ -195,16 +191,14 @@ impl Value {
     /// # Examples
     ///
     /// ```
-    /// use lib_resp::Value;
-    ///
+    /// # use lib_resp::Value;
     /// let error = Value::err("");
     ///
     /// assert!(error.is_empty());
     /// ```
     ///
     /// ```
-    /// use lib_resp::Value;
-    ///
+    /// # use lib_resp::Value;
     /// let error = Value::err("ERR");
     ///
     /// assert!(!error.is_empty())
@@ -213,8 +207,7 @@ impl Value {
     /// Null values count as empty too:
     ///
     /// ```
-    /// use lib_resp::Value;
-    ///
+    /// # use lib_resp::Value;
     /// let name = Value::BStr(None);
     ///
     /// assert!(name.is_empty());
@@ -247,8 +240,7 @@ impl Value {
     /// # Examples
     ///
     /// ```
-    /// use lib_resp::Value;
-    ///
+    /// # use lib_resp::Value;
     /// let age = Value::int(-3);
     ///
     /// println!("{:?}", age);
@@ -263,8 +255,7 @@ impl Value {
     /// # Examples
     ///
     /// ```
-    /// use lib_resp::Value;
-    ///
+    /// # use lib_resp::Value;
     /// let status = Value::str("OK");
     ///
     /// println!("{:?}", status);
@@ -282,8 +273,7 @@ impl Value {
     /// # Examples
     ///
     /// ```
-    /// use lib_resp::Value;
-    ///
+    /// # use lib_resp::Value;
     /// let err = Value::err("ERR");
     ///
     /// println!("{:?}", err);
@@ -296,6 +286,16 @@ impl Value {
         Value::Err(error.to_string())
     }
 
+    /// Constructs a new bulk string.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use lib_resp::Value;
+    /// let b_str = Value::b_str(Some("foobar"));
+    ///
+    /// println!("{:?}", b_str);
+    /// ```
     #[inline(always)]
     pub fn b_str<T>(value: Option<T>) -> Self
     where
@@ -311,8 +311,7 @@ impl Value {
     /// # Examples
     ///
     /// ```
-    /// use lib_resp::Value;
-    ///
+    /// # use lib_resp::Value;
     /// let users = Value::array(Some(vec![
     ///     Value::b_str(Some("foo")),
     ///     Value::b_str(Some("bar")),

@@ -83,8 +83,7 @@ impl Parser {
     /// # Examples
     ///
     /// ```
-    /// use lib_resp::Parser;
-    ///
+    /// # use lib_resp::Parser;
     /// let age = Parser::parse_str(":-3").unwrap();
     ///
     /// println!("{:?}", age);
